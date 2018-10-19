@@ -3,6 +3,21 @@ from itertools import combinations_with_replacement
 import numpy as np
 
 
+def divide_on_feature(X, feature_i, threshold):
+    split_func = None
+
+    # sample is a row of X, and feature_i is to locate the feature and choose the value comparing to threshold
+    if isinstance(threshold, int) or isinstance(threshold, float):
+        split_func = lambda sample: sample[feature_i] >= threshold
+    else:
+        split_func = lambda sample: sample[feature_i] == threshold
+
+    Xy_1 = np.array([sample for sample in X if split_func(sample)])
+    Xy_2 = np.array([sample for sample in X if not split_func(sample)])
+
+    return np.array([Xy_1, Xy_2])
+
+
 def shuffle_data(X, y, seed=None):
     """ random shuffle of samples in X and y """
     if seed:

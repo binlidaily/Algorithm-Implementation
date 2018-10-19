@@ -19,3 +19,20 @@ def calculate_covariance_matrix(X, Y=None):
 
     return np.array(covariance_matrix, dtype=float)
 
+
+def calculate_entropy(y):
+	log2 = lambda x: math.log(x) / math.log(2)
+	entropy = 0
+	unique_labels = np.unique(y)
+
+	for label in unique_labels:
+		cnt = len(y[y == label])
+		prob = float(cnt) / len(y)
+		entropy += - prob * log2(prob)
+
+	return entropy
+
+def accuracy_score(y_true, y_pred):
+    """ Compare y_true to y_pred and return the accuracy """
+    accuracy = np.sum(y_true == y_pred, axis=0) / len(y_true)
+    return accuracy

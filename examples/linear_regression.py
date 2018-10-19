@@ -4,11 +4,10 @@ from sklearn.datasets import make_regression
 import matplotlib.pyplot as plt
 import sys
 import numpy as np
-
-sys.path.insert(0, '../utils/')
+sys.path.insert(0, '/Users/Bin/Dropbox/Codes/ML-From-Scratch/ml-algs/utils/')
 from data_operation import mean_squared_error
 from data_manipulation import train_test_split
-sys.path.insert(0, '../supervised_learning/')
+sys.path.insert(0, '/Users/Bin/Dropbox/Codes/ML-From-Scratch/ml-algs/supervised_learning/')
 from regression import LinearRegression
 
 
