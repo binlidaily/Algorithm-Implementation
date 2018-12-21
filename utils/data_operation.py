@@ -36,3 +36,12 @@ def accuracy_score(y_true, y_pred):
     """ Compare y_true to y_pred and return the accuracy """
     accuracy = np.sum(y_true == y_pred, axis=0) / len(y_true)
     return accuracy
+
+
+def calculate_variance(X):
+    """ Return the Variance of features in Dataset X"""
+    mean = np.ones(np.shape(X)) * X.mean(0)   # mean of every columns
+    n_samples = np.shape(X)[0]
+    variance = (1 / n_samples) * np.diag((X - mean).T.dot(X - mean))
+    
+    return variance

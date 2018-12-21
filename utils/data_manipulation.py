@@ -78,3 +78,22 @@ def polynomial_features(X, degree):
         X_new[:, i] = np.prod(X[:, index_combs], axis=1)
 
     return X_new
+
+def standardize(X):
+    """ Standardize the dataset X """
+    X_std = X
+
+    mean = X.mean(axis=0)
+    std = X.std(axis=0)
+    # std = sqrt(mean(abs(x - x.mean())**2))
+
+    # $$
+    # y _ { i } = \frac { x _ { i } - \overline { x } } { s }
+    # $$
+
+    for col in range(np.shape(X)[1]):
+        # comfirm that std is not zero
+        if std[col]:
+            X_std[:, col] = (X_std[:, col] - mean[col]) / std[col]
+
+    return X_std

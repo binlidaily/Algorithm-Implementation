@@ -2,6 +2,8 @@ from __future__ import division, print_function
 # compare with sklearn
 from sklearn import datasets
 
+from sklearn.tree import DecisionTreeClassifier
+
 import sys
 sys.path.insert(0, '../supervised_learning/')
 
@@ -29,6 +31,14 @@ def main():
 
 	print('Accuracy: ', accuracy)
 
-	
+	dt = DecisionTreeClassifier()
+	dt.fit(X_train, y_train)
+	y_val = dt.predict(X_test)
+
+	acc = accuracy_score(y_test, y_val)
+
+	print('sklearn score:', acc)
+
+
 if __name__ == '__main__':
 	main()
