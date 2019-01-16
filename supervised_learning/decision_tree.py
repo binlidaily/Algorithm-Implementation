@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 
-sys.path.insert(0, '../until')
+sys.path.insert(0, '../utils')
 
 from data_manipulation import divide_on_feature
 from data_operation import calculate_entropy, calculate_variance
@@ -184,3 +184,47 @@ class RegressionTree(DecisionTree):
         self._impurity_calculation = self._calculate_variance_reduction
         self._leaf_value_calculation = self._mean_of_y
         super(RegressionTree, self).fit(X, y)
+
+
+class XGBoostRegressionTree(object):
+    """docstring for XGBoostRegressionTree"""
+    def __init__(self):
+        super(XGBoostRegressionTree, self).__init__()
+        
+
+    def _split(self, y):
+        # shape of y is (# of samples, #dim of y)
+        # why we should split y?
+        col = int(np.shape(y)[1]/2)
+        y, y_pred = y[:, :col], y[: col:]
+        return y, y_pred
+
+    def _gain(self, y, y_pred):
+        nominator = np.power((y * self.loss.gradient(y, y_pred)).sum(), 2)
+        denominator = self.loss.hess(y, y_pred).sum()
+        return 0.5 * (nominator / denominator)
+
+    def _gain_by_taylor(self, y, y1, y2):
+        # Split
+        y, y_pred = self._split(y)
+        y1, y1_pred = self._split(y1)
+        y2, y2_pred = self._split(y2)
+
+        true_gain = self._gain(y1, y1_pred)
+        false_gain = self._gain(y2, y2_pred)
+        gain = self._gain(y, y_pred)
+
+        return true_gain + false_gain - gain
+
+    def _approximate_update(self, y):
+        y, y_pred = self.split(y)
+        gradient = np.sum(y * self.loss.gradient(y, y_pred), axis=0)
+        hessian = np.sum(self.loss.hess(y, y_pred), axis=0)
+        update_approximate = - gradient / hessian
+
+        return update_approximate
+
+    def fit(self, X, y):
+        self._impurity_calculation = self._gain_by_taylor
+        self._leaf_value_calculation = self._approximate_update
+        super(XGBoostRegressionTree, self).fit(X, y)
