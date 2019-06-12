@@ -105,3 +105,11 @@ def to_categorical(x, n_col=None):
     one_hot = np.zeros((x.shape[0], n_col))
     one_hot[np.arange(x.shape[0]), x] = 1
     return one_hot
+
+def make_diagonal(x):
+    """ Converts a vector into an diagonal matrix """
+    m = np.zeros((len(x), len(x)))
+    # for i in range(len(m[0])):
+    for i in range(len(x)):
+        m[i, i] = x[i]
+    return m

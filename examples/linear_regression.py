@@ -4,10 +4,10 @@ from sklearn.datasets import make_regression
 import matplotlib.pyplot as plt
 import sys
 import numpy as np
-sys.path.insert(0, '/Users/Bin/Dropbox/Codes/ML-From-Scratch/ml-algs/utils/')
+sys.path.insert(0, '../utils/')
 from data_operation import mean_squared_error
 from data_manipulation import train_test_split
-sys.path.insert(0, '/Users/Bin/Dropbox/Codes/ML-From-Scratch/ml-algs/supervised_learning/')
+sys.path.insert(0, '../supervised_learning/')
 from regression import LinearRegression
 
 
@@ -44,7 +44,7 @@ def main():
     # Plot the results
     m1 = plt.scatter(366 * X_train, y_train, color=cmap(0.9), s=10)
     m2 = plt.scatter(366 * X_test, y_test, color=cmap(0.5), s=10)
-    plt.plot(366 * X, y_pred_line, color='black', linewidth=2, label="Prediction")
+    plt.plot(366 * X, y_pred_line, color='b', linewidth=2, label="Prediction")
     plt.suptitle("Linear Regression")
     plt.title("MSE: %.2f" % mse, fontsize=10)
     plt.xlabel('Day')
